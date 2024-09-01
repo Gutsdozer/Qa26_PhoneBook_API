@@ -1,6 +1,8 @@
 package okhttp;
 
 import com.google.gson.Gson;
+import dto.ContactDTO;
+import dto.GetAllContactsDTO;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -8,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 public class GetAllContactsestsOkhttp {
 
@@ -26,6 +29,14 @@ public class GetAllContactsestsOkhttp {
         Response response = client.newCall(request).execute();
         Assert.assertTrue(response.isSuccessful());
         Assert.assertEquals(response.code(), 200);
+        GetAllContactsDTO contactsDTO = gson.fromJson(response.body().string(), GetAllContactsDTO.class);
+        List<ContactDTO> contacts = contactsDTO.getContacts();
+        for(ContactDTO c:contacts){
+            System.out.println(c.getId());
+            System.out.println(c.getEmail());
+            System.out.println("============");
+        }
+
     }
 
     @Test
